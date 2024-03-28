@@ -1,0 +1,30 @@
+shades_at_start() {
+    echo "\u2591\u2592\u2593"
+}
+
+shades_at_end() {
+    echo "\u2593\u2592\u2591"
+}
+
+frg() {
+    echo "%{%F{$1}%}"
+}
+
+bkg() {
+    echo "%{%K{$1}%}"
+}
+
+begin_shade_ribbon() {
+    echo $(frg $1)$(shades_at_start)$(bkg $1)" "$(frg $2)
+}
+
+end_shades() {
+    echo "%k"$(frg $1)$(shades_at_end)
+}
+
+# Desired Prompt so far
+PROMPT=$'%B%*\n%(#.$(begin_shade_ribbon red 039).$(begin_shade_ribbon 061 051))${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}%B%n'$prompt_symbol$'%m %b%(#.$(begin_shade_ribbon 021 154).$(begin_shade_ribbon 090 154))%B%(6~.%-1~/…/%4~.%5~)%b %(#.$(end_shades 021).$(end_shades 090))\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset}%f '
+
+# Original Prompt
+# PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n'$prompt_symbol$'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+
