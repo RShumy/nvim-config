@@ -1,5 +1,5 @@
-export USER_C=25
-export USER_BKG=50
+export USER_C=045
+export USER_BKG=061
 export ROOT_C="red"
 export ROOT_BKG=039
 export TIME_C=031

@@ -1,7 +1,7 @@
 # Git sourcing
 source ~/.git-prompt.sh
-source ~/color_support.sh   
-
+source ~/color_support   
+source ~/theme_variables
 
 # Set-up for live clock
 setopt PROMPT_SUBST
@@ -11,55 +11,13 @@ TRAPALRM() {
 }
 
 
-# Define the array containing variable names
-THEME_VARIABLES=(
-    USER_C
-    USER_BKG
-    ROOT_C
-    ROOT_BKG
-    TIME_C
-    TIME_BKG
-    R_TIME
-    R_TIME_BKG
-    TIME_TYPE
-)
-
-set_up() {
-# Loop to assign values to the associative array
-for var_name in "${THEME_VARIABLES[@]}"; do
-    if [[ -z "${(P)var_name}" ]] || [[ -z $val[$var_name] ]]; then
-    # Assign default values to variables
-        case $var_name in 
-            USER_C) USER_C=045
-                ;;
-            USER_BKG) USER_BKG=061
-                ;;
-            ROOT_C) ROOT_C="red"
-                ;;
-            ROOT_BKG) ROOT_BKG=039
-                ;;
-            TIME_C) TIME_C=031
-                ;;
-            TIME_BKG) TIME_BKG=054
-                ;;
-            R_TIME) R_TIME=$TIME_C
-                ;;
-            R_TIME_BKG) R_TIME_BKG=$TIME_BKG
-                ;;
-            TIME_TYPE) TIME_TYPE="24"
-                ;;
-        esac
-    fi
-    # Trying to have a find a persistent solution 
-    # that would pass as a rudimentary setting stored in memory
-    val[$var_name]="${(P)var_name}"
-done
-}
-
-set_up
-
+# Change the value of the variable in the theme_variables file
 set_var() {
-set_up
+    local var_name=$1
+    local var_value=$2
+    # theme_variables file should be present in the same folder as this file
+    sed -i -E "s/$var_name=[0-9A-Za-z\"]+/$var_name=$var_value/g" theme_variables
+    export $1=$2
 }
 
 time_type() {
@@ -141,12 +99,19 @@ check_param_types() {
     fi
 }
 
+head_end() {
+    if [ -n "$1" ] 
+        local BKG="${1}_BKG"
+        local R_BKG="${1}_BKG"
+        echo "%(#.$(end_shades ${(P)R_BKG}).$(end_shades ${(P)BKG}))"
+}
+
 time_segment() {
-    echo "$(begin_shade_ribbon $val[TIME_BKG] $val[TIME_C])$(time_type $val[TIME_TYPE])$(end_shades $val[TIME_BKG])" 
+    echo "$(begin_shade_ribbon $TIME_BKG $TIME_C)$(time_type $TIME_TYPE)$(head_end TIME)" 
 }
 
 user_segment() {
-    echo "%(#.$(begin_shade_ribbon $val[ROOT_BKG] $val[ROOT_C]).$(begin_shade_ribbon $val[USER_BKG] $val[USER_C]))%n"
+    echo "%(#.$(begin_shade_ribbon $ROOT_BKG $ROOT_C).$(begin_shade_ribbon $USER_BKG $USER_C))%n"
 }
 
 
