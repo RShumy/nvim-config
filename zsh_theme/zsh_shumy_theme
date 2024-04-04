@@ -1,11 +1,12 @@
-# Git sourcing
-source ~/.git-prompt.sh
-source ~/color_support   
-source ~/theme_variables
+# ToDo: Transform this into a more dynamic aproach when switching to root
+# # Git sourcing
+source /home/shumy/.git-prompt.sh
+source /home/shumy/color_support   
+source /home/shumy/theme_variables
 
 # Set-up for live clock
 setopt PROMPT_SUBST
-TMOUT=1
+TMOUT=60
 TRAPALRM() {
     zle reset-prompt
 }
@@ -16,7 +17,7 @@ set_var() {
     local var_name=$1
     local var_value=$2
     # theme_variables file should be present in the same folder as this file
-    sed -i -E "s/$var_name=[0-9A-Za-z\"]+/$var_name=$var_value/g" theme_variables
+    sudo sed -i -E "s/$var_name=[0-9A-Za-z\"]+/$var_name=$var_value/g" theme_variables
     export $1=$2
 }
 
@@ -29,14 +30,6 @@ time_type() {
     esac
 }
 
-shades_at_start() {
-    echo "\u2591\u2592\u2593"
-}
-
-shades_at_end() {
-    echo "\u2593\u2592\u2591"
-}
-
 # Foreground
 frg() {
     echo "%{%F{$1}%}"
@@ -45,14 +38,6 @@ frg() {
 # Background
 bkg() {
     echo "%{%K{$1}%}"
-}
-
-begin_shade_ribbon() {
-    echo $(frg $1)$(shades_at_start)$(bkg $1)$(frg $2)
-}
-
-end_shades() {
-    echo "%k"$(frg $1)$(shades_at_end)
 }
 
 full_reset() {
@@ -99,19 +84,85 @@ check_param_types() {
     fi
 }
 
-head_end() {
-    if [ -n "$1" ] 
+ 
+start_transition() {
+    echo $(frg $1)${POINTER_START}$(bkg $1)$(frg $2)
+}
+
+end_transition() {
+    echo "%k"$(frg $1)$POINTER_END
+}
+
+gr_frg_color() {
+    if [ -n "$1" ]; then 
+        local COLOR="${1}_C"
+        local R_COLOR="R_${1}_C"
+        echo "%(#.$(frg ${(P)R_COLOR}).$(frg ${(P)COLOR}))"
+    else
+        echo "%f"
+    fi
+}
+
+gr_bkg_color() {
+    if [ -n "$1" ]; then
         local BKG="${1}_BKG"
-        local R_BKG="${1}_BKG"
-        echo "%(#.$(end_shades ${(P)R_BKG}).$(end_shades ${(P)BKG}))"
+        local R_BKG="R_${1}_BKG"
+        echo "%(#.$(bkg ${(P)R_COLOR}).$(bkg ${(P)COLOR}))"
+    else
+        echo "%k"
+    fi 
+}
+
+gr_FB_colors() {
+    echo "$(frg $1)$(bkg $1)"    
+}
+
+root_option() {
+    echo "${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}"
+}
+
+segment_options() {
+   case $2 in  
+    "with") 
+        echo "$(start_segment $1)%n"
+    ;;
+    part_of)
+        if [[ -n $3 ]]; then 
+            echo "$(group_FB_colors $3)"
+        fi
+    ;;
+    "")
+        echo "$(font_color $1)%n"
+    ;;
+    esac 
+}
+
+start_segment() {
+    if [ -n "$1" ]; then 
+        local COLOR="${1}_C"
+        local BKG="${1}_BKG"
+        local R_COLOR="R_${1}_C"
+        local R_BKG="R_${1}_BKG"
+        echo "%(#.$(start_transition ${(P)R_BKG} ${(P)R_COLOR}).$(start_transition ${(P)BKG} ${(P)COLOR}))"
+    else
+        echo "$(full_reset)"
+    fi
+}
+
+head_end() {
+    if [ -n "$1" ]; then 
+        local BKG="${1}_BKG"
+        local R_BKG="R_${1}_BKG"
+        echo "%(#.$(end_transition ${(P)R_BKG}).$(end_transition ${(P)BKG}))"
+    fi
 }
 
 time_segment() {
-    echo "$(begin_shade_ribbon $TIME_BKG $TIME_C)$(time_type $TIME_TYPE)$(head_end TIME)" 
+    echo "$(start_segment TIME)$(time_type $TIME_TYPE)$(head_end TIME)" 
 }
 
 user_segment() {
-    echo "%(#.$(begin_shade_ribbon $ROOT_BKG $ROOT_C).$(begin_shade_ribbon $USER_BKG $USER_C))%n"
+    segment_options USER $1 $2 
 }
 
 
@@ -121,7 +172,7 @@ prompt_symbol=$(echo "\u2622")
 [ "$EUID" -eq 0 ] && prompt_symbol=💀
 
 # Desired Prompt so far
-Shumy_PROMPT=$'%B$(time_segment)\n$(user_segment)${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}%B'$prompt_symbol$'%m%b%(#.$(begin_shade_ribbon 021 154).$(begin_shade_ribbon 090 154))%B%(6~.%-1~/…/%4~.%5~)%b%(#.$(end_shades 021).$(end_shades 090))\n└─[$(__git_ps1 "(%s)")]%B%(#.%F{red}#.%F{blue}$)%b%F{reset}%f '
+Shumy_PROMPT=$'%B$(root_option)$(time_segment)\n$(user_segment with)%B'$prompt_symbol$'%m%b$(start_segment DIR)%B%(6~.%-1~/…/%4~.%5~)%b$(head_end DIR)\n└─[$(__git_ps1 "(%s)")]%B%(#.%F{red}#.%F{blue}$)%b%F{reset}%f '
 Back_up=$Shumy_PROMPT
 # Original Prompt
 # PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))─}(%B%F{%(#.red.blue)}%n'$prompt_symbol$'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '

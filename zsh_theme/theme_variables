@@ -1,0 +1,27 @@
+export USER_C=045
+export USER_BKG=061
+export R_USER_C="red"
+export R_USER_BKG=016
+export DIR_C=154
+export DIR_BKG=090
+export R_DIR_C=154 
+export R_DIR_BKG=021
+export MACHINE_C=045
+export MACHINE_BKG=061
+export R_MACHINE_C="red"
+export R_MACHINE_BKG=016
+export GIT_C=053
+export GIT_BKG=214
+export R_GIT_C="red"
+export R_GIT_BKG=016
+export TIME_C=031
+export TIME_BKG=054
+export R_TIME_C=$TIME_C
+export R_TIME_BKG=$TIME_BKG
+export TIME_TYPE="24"
+export POINTER_START=$SHADES_START
+export POINTER_END=$SHADES_END
+export SHADES_START="\u2591\u2592\u2593"
+export SHADES_END="\u2593\u2592\u2591"
+
+
