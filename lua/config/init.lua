@@ -12,11 +12,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- global variables leader mapped in globals.lua
+-- We import configurations from other files by requireing
 require('config.globals')
 require('config.options')
 
 -- options variable to be passed in lazy setup
-local opts = {
+local lazyopts = {
 	defaults = {
 		lazy = true,
 	},
@@ -28,10 +29,11 @@ local opts = {
                 "gzip",
                 "matchit",
                 "matchparen",
+                "netrw",
                 "netrwPlugin",
                 "tarPlugin",
                 "tohtml",
-               -- "tutor",
+                "tutor",
                 "zipPlugin",
 		}
 	},
@@ -40,5 +42,4 @@ local opts = {
 	},
 }
 
-
-require("lazy").setup('plugins', opts)
+require("lazy").setup('plugins', lazyopts)
