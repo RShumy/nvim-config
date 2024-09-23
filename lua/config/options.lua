@@ -4,6 +4,7 @@
 -- Setting the local variable to shorten the calling string
 -- instead of vim.opt.<optionname> to call like opt.<optionname>
 local opt = vim.opt
+local g = vim.g
 --------------------------------------------------------------
 
 -- Tabs
@@ -29,8 +30,11 @@ opt.number = true
 opt.cmdheight = 2
 opt.scrolloff = 10
 opt.completeopt = "menuone,noinsert,noselect"
+opt.cursorline = true
 
 -- Behaviour
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 opt.hidden = true  
 opt.errorbells = false 
 opt.swapfile = false 
@@ -47,6 +51,8 @@ opt.clipboard:append("unnamed")
 opt.clipboard:append("unnamedplus") 
 opt.modifiable = true
 opt.encoding = 'UTF-8'
+opt.updatetime = 100
+opt.writebackup = false
 
 -- which key
 opt.timeout = true
