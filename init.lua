@@ -16,11 +16,11 @@ vim.opt.rtp:prepend(lazypath)
 require('config')
 -- options variable to be passed in lazy setup
 local lazyopts = {
-	defaults = {
-		lazy = true,
-	},
+    defaults = {
+ 		lazy = false,
+ 	},
 	install = {
-		colorscheme = { "nightfox" } 
+		colorscheme = { "carbonfox" } 
 	},
 	rtp = {
 		disabled_puglins = {
@@ -45,3 +45,14 @@ local lazyopts = {
 }
 
 require("lazy").setup('plugins', lazyopts)
+-- Make nvim transparent
+vim.cmd [[
+
+  hi Normal guibg=none ctermbg=none
+  hi NormalNC guibg=none ctermbg=none
+  hi CursorLine cterm=underdouble gui=underdouble guibg=none ctermbg=none
+  hi NonText guibg=none ctermbg=none
+  hi NvimTreeNonText guibg=none ctermbg=none
+  hi NvimTreeNormal guibg=none ctermbg=none
+
+]]

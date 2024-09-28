@@ -6,6 +6,7 @@ return {
     config =  function()
       local function on_attach_change(bufnr)
         -- Defining nt_api to stand for "nvim-tree.api"
+        -- and configure custome keymaps that will be active only when NvimTree buffer is active
         local nt_api = require "nvim-tree.api"
 
         local function opts(desc)
@@ -44,18 +45,3 @@ return {
     }
 }
 
-
--- return {
---     "nvim-tree/nvim-tree.lua",
---     lazy = false,
---     dependencies = { 'nvim-tree/nvim-web-devicons' }, 
---     config = { }, 
---     setup = {
---         update_focused_file = {
---             enabled = true,
---             update_root = true,
---             update_cwd = true,
---         }
---     }
--- 
--- }
