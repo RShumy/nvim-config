@@ -20,7 +20,7 @@ local lazyopts = {
  		lazy = false,
  	},
 	install = {
-		colorscheme = { "carbonfox" } 
+		colorscheme = { "dracula" }
 	},
 	rtp = {
 		disabled_puglins = {
@@ -33,6 +33,7 @@ local lazyopts = {
                 "tohtml",
                 "tutor",
                 "zipPlugin",
+                "nightfox-color-config",
 		}
 	},
 	change_detection = {
@@ -46,13 +47,13 @@ local lazyopts = {
 
 require("lazy").setup('plugins', lazyopts)
 -- Make nvim transparent
+--  hi Normal guibg=none ctermbg=none
+--  hi NormalNC guibg=none ctermbg=none
 vim.cmd [[
 
-  hi Normal guibg=none ctermbg=none
-  hi NormalNC guibg=none ctermbg=none
-  hi CursorLine cterm=underdouble gui=underdouble guibg=none ctermbg=none
-  hi NonText guibg=none ctermbg=none
-  hi NvimTreeNonText guibg=none ctermbg=none
-  hi NvimTreeNormal guibg=none ctermbg=none
+    hi CursorLine cterm=underline gui=underline guisp=White guibg=none ctermbg=none
+    hi NonText guibg=none ctermbg=none
+    hi NvimTreeNonText guibg=none ctermbg=none
+    hi NvimTreeNormal guibg=none ctermbg=none
 
 ]]
