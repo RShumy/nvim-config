@@ -50,10 +50,14 @@ require("lazy").setup('plugins', lazyopts)
 --  hi Normal guibg=none ctermbg=none
 --  hi NormalNC guibg=none ctermbg=none
 vim.cmd [[
-
-    hi CursorLine cterm=underline gui=underline guisp=White guibg=none ctermbg=none
+    
     hi NonText guibg=none ctermbg=none
     hi NvimTreeNonText guibg=none ctermbg=none
     hi NvimTreeNormal guibg=none ctermbg=none
 
+]]
+
+--Making the Cursor Line Transparent
+vim.cmd [[ 
+    hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE
 ]]
