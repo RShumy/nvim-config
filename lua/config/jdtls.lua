@@ -3,7 +3,7 @@ local mason_registry = require("mason-registry")
 
 local function get_jdtls()
     -- Find JDTLS pacakge in the Mason Registry
-    local jdtls = mason_registry.get_pacakge("jdtls")
+    local jdtls = mason_registry.get_package("jdtls")
     -- Find the full path to directory where Mason has downloaded the JDTLS binaries
     local jdtls_path = jdtls:get_install_path()
     -- Obtain the path to the jar that runs the language server
@@ -11,7 +11,7 @@ local function get_jdtls()
     -- Declare operating system, for linux use linux, windows use win, macos use mac
     local SYSTEM = "linux"
     -- Obtain path to configuration files for running opperating system
-    local config = jdtls_path .. "/config" .. SYSTEM
+    local config = jdtls_path .. "/config_" .. SYSTEM
     -- Obtain the path to Lombok jar
     local lombok = jdtls_path .. "/lombok.jar"
     return launcher, config, lombok
@@ -19,7 +19,7 @@ end
 
 local function get_bundles()
     -- Find the Java Debug Adapter in the Mason Registry
-    local java_debug = mason_registry.get_package("java_debug_adapter")
+    local java_debug = mason_registry.get_package("java-debug-adapter")
     -- Obtain the full path to the directory where Mason has downloaded the Java Debug Adapter
     local java_debug_path = java_debug:get_install_path()
 
@@ -28,7 +28,7 @@ local function get_bundles()
     }
 
     -- Find the Java Test pacakge in the Mason Registry
-    local java_test = mason_registry.get_pacakge("java-test")
+    local java_test = mason_registry.get_package("java-test")
     -- Obtain the full path to the directory where Mason has downloaded the Java Test binaries
     local java_test_path = java_test:get_install_path()
     -- Add the .jar for running tests in the debug mode to the bundles list
@@ -41,7 +41,7 @@ local function get_workspace()
     -- Get the home directory of the Operating System
     local home = os.getenv "HOME"
     -- Declare a directory where you would like to store project information
-    local workspace_path = home .. "/projects/java-projects/"
+    local workspace_path = home .. "/projects/java-projects/workspace/"
     -- Determine the project name
     local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), "p:h:t")
     --  Create workspace directory by concatenating the designated workspace path and the project name
@@ -81,7 +81,7 @@ end
 
 local function setup_jdtls()
     -- Get access to the jdtls plugin and all of its functionality
-    local jdtls = require "jdtls"
+    local jdtls = require("jdtls")
 
     -- Get the paths to the jdtls jar, operating specific configuration directory, and lombok jar
     local launcher, os_config, lombok = get_jdtls()
@@ -93,7 +93,8 @@ local function setup_jdtls()
     local bundles = get_bundles()
 
     -- Determine the root directory of the project by looking for these specific markers
-    local root_dir = jdtls.setup.find_root({ '.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' });
+    -- consider addding folder oprions: 'mvnw', 'gradlew', 'pom.xml', 'build.gradle' 
+    local root_dir = jdtls.setup.find_root({ '.git'});
 
     -- Tell our JDTLS language features it is capable of
     local capabilities = {
