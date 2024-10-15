@@ -37,16 +37,16 @@ return {
             --get access to the lspconfig plugin function
             local lspconfig = require("lspconfig")
 
-            -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             -- lua language server setup
             lspconfig.lua_ls.setup({
-                -- capabilities = capabilities,
+                capabilities = capabilities,
             })
 
             -- type script language server setup
             lspconfig.ts_ls.setup({
-                -- capabilities = capabilities,
+                capabilities = capabilities,
             })
 
             -- Set vim motion for <Space> + c + h to show code documentation about the code the cursor is currently over if available

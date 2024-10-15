@@ -108,7 +108,11 @@ local function setup_jdtls()
         }
     }
 
-   -- Get the default extended client capablities of the JDTLS language server
+    local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+    for k, v in pairs(lsp_capabilities) do capabilities[k] = v end
+
+    -- Get the default extended client capablities of the JDTLS language server
     local extendedClientCapabilities = jdtls.extendedClientCapabilities
     -- Modify one property called resolveAdditionalTextEditsSupport and set it to true
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
