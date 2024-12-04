@@ -13,6 +13,7 @@ return {
   -- },
   dependencies = {
     "nvim-lua/plenary.nvim",
+"nvim-treesitter/nvim-treesitter"
   },
   opts = {
     workspaces = {
@@ -27,14 +28,5 @@ return {
 --        path = "~/vaults/work",
 --      },
     },
-
-    -- Making sure markdown syntax highlighting is installed
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = { "markdown", "markdown_inline", ... },
-      highlight = {
-        enable = true,
-      },
-    })
-
   },
 }
