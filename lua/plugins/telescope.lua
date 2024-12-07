@@ -26,6 +26,9 @@ return {
         event = "VeryLazy",
     },    
     {
+        'nvim-lua/plenary.nvim',
+    },
+    {
         'nvim-telescope/telescope-ui-select.nvim',
         lazy = true,
         config = function()

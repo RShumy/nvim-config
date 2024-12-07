@@ -1,3 +1,6 @@
+
+vim.opt.conceallevel = 2
+
 return {
   "epwalsh/obsidian.nvim",
   version = "*",  -- recommended, use latest release instead of latest commit
@@ -13,7 +16,7 @@ return {
   -- },
   dependencies = {
     "nvim-lua/plenary.nvim",
-"nvim-treesitter/nvim-treesitter"
+    "nvim-treesitter/nvim-treesitter"
   },
   opts = {
     workspaces = {

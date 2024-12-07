@@ -81,34 +81,9 @@
     vim.keymap.set("n", "<leader>wv", ":vsplit<cr>", {desc = "Window Split vertical"})
     vim.keymap.set("n", "<leader>wh", ":split<cr>", {desc = "Window Split horizontal"})
 
--- Obsidian Note Taking plugin keyboard shortcuts
-    -- navigate to vault
-    local vault_path = "/home/shumy/shumy_vault"
--- TODO: Move in another folder
-    local function open_vault_file()
-        -- Prompt the user for the filename of the new Note
-        local user_input = vim.fn.input("Enter filename: ")
-
-        -- If the input is empty, cancel the operation
-        if user_input == "" then
-          print("Operation canceled")
-          return
-        end
-
-        -- Construct the command dynamically
-        local cmd = string.format(":e %s/%s.md", vault_path, user_input)
-
-        -- Execute the command
-        vim.cmd(cmd)
-    end
-
-    vim.keymap.set("n", "<leader>oo", ":cd ".. vault_path .."<cr>")
-
-    -- search for files in full vault
-    vim.keymap.set("n", "<leader>os", ":Telescope find_files search_dirs={\""..vault_path.."\"}<cr>")
-    vim.keymap.set("n", "<leader>oz", ":Telescope live_grep search_dirs={\""..vault_path.."\"}<cr>")
-    vim.keymap.set("n", "<leader>nn", open_vault_file)
-    vim.keymap.set("n", "<leader>oz", ":Telescope live_grep search_dirs={\""..vault_path.."\"}<cr>")
+-- Plugin Keymaps
+    -- Obsidian Notetaking plugin
+    require("plugins.keymaps.obsidian.keymaps")
 
 --local function comment()
 --    end
