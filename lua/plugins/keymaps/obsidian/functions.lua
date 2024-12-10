@@ -8,6 +8,41 @@ local function Path() return require("plenary.path") end
 local function actions() return require("telescope.actions") end
 local function action_state() return require("telescope.actions.state") end
 
+local count_retry_input = 0
+
+local function file_invalid_pattern(file_name)
+    local first_space = "^%s"
+    local two_spaces = "%s"
+    return  file_name == nil or
+            file_name == "" or
+            file_name:match(first_space) or
+            file_name:match(two_spaces) or
+            file_name:match("[!$\\/.^&$(*)%[%]%{%}:`|~;'\"><?%%]")
+
+end
+
+
+
+local function retry_input(file_name)
+    if file_invalid_pattern(file_name) then
+        file_name = vim.fn.input("Enter new file name: ")
+        if file_invalid_pattern(file_name) and count_retry_input <= 2 then
+            count_retry_input = count_retry_input + 1
+            print(  "Invalid input, either Empty or contains: \n"..
+                    "First character space, Consecutive two spaces or Punctuation characters\n"..
+                    "\nRetry Count: " .. count_retry_input
+                )
+            return retry_input(file_name)
+        elseif file_invalid_pattern(file_name) then
+            count_retry_input = 0
+            print("Opperation Canceled")
+            return
+        end
+    end
+    count_retry_input = 0
+    return file_name
+end
+
 -- Function to pick a folder and open a file in the vault
 local function create_or_open(filename_matches, file_from_selection, file_from_input)
     -- Prompt for filename
@@ -18,7 +53,7 @@ local function create_or_open(filename_matches, file_from_selection, file_from_i
             return file_from_selection
         end
         if user_input == "C" or user_input == "c" then
-            return file_from_input
+            return retry_input(file_from_input)
         end
         -- Retry file_from_input if not maching any chosen option
         return create_or_open(filename_matches, file_from_selection, file_from_input)
@@ -75,7 +110,7 @@ local function pick_or_create_file(selected_folder, callback)
                     local file_name = file_name_with_ext:match("^(.*)%.") or file_name_with_ext
 
                     print("Pressed Key: " .. file_from_input) -- Debugging output
-                    print("Filr Name with extension" .. file_name_with_ext)
+                    print("File Name with extension" .. file_name_with_ext)
                     print("Selected File Name: " .. file_name) -- Debugging output
 
                     local filenames_match = file_name == file_from_input
@@ -88,15 +123,9 @@ local function pick_or_create_file(selected_folder, callback)
                         callback(Path():new(selected_folder):joinpath(final_file..".md"):absolute())
                     end
                 else
-                    -- No selection, prompt for user input
-                    file_from_input = vim.fn.input("Enter new file name: ")
-                    if file_from_input == "" then
-                        print("Operation canceled")
-                        return
-                    end
-
-                    local new_file_path = Path():new(selected_folder):joinpath(file_from_input..".md"):absolute()
-                    callback(new_file_path) -- Pass the new file name to the callback
+                    local new_file_path = retry_input(file_from_input)
+                    local file_name = Path():new(selected_folder):joinpath(new_file_path..".md"):absolute()
+                    callback(file_name) -- Pass the new file name to the callback
                 end
             end)
 
@@ -109,7 +138,9 @@ local function open_vault_file()
 
     local current_path = vim.fn.getcwd()
   -- Function to handle folder selection and file opening
-    pick_folder(function(selected_folder)
+    pick_folder(function(selected_folder) -- First Callback
+        -- other instuctions if needed, 
+        -- for now just calling 
         pick_or_create_file(selected_folder, function (file_path)
             vim.cmd("e " .. file_path)
         end)
