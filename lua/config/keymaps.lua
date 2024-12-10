@@ -84,6 +84,7 @@
 -- Plugin Keymaps
     -- Obsidian Notetaking plugin
     require("plugins.keymaps.obsidian.keymaps")
+    require("plugins.keymaps.nvim-tree.keymaps")
 
 --local function comment()
 --    end
