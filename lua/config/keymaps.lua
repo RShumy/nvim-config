@@ -31,9 +31,9 @@
        -- \"a represents the name of the register from which we paste text
        -- that is not overwritten by cutting or deleitng text with "c, x, d" 
     vim.keymap.set({"n","v"}, "p", "\"ap", {desc = "Paste append selection from register \"a"} )
-    vim.keymap.set({"n","v"}, "p", "\"aP", {desc = "Paste insert selection from register \"a"} )
-    vim.keymap.set({"n","v"}, "pC", "\"cP", {desc = "Paste insert selection from Insertion Cut register\"c "} )
+    vim.keymap.set({"n","v"}, "P", "\"aP", {desc = "Paste insert selection from register \"a"} )
     vim.keymap.set({"n","v"}, "pc", "\"cp", {desc = "Paste append selection from Insertion Cut register\"c "} )
+    vim.keymap.set({"n","v"}, "pC", "\"cP", {desc = "Paste insert selection from Insertion Cut register\"c "} )
     vim.keymap.set({"n","v"}, "pd", "\"dp", {desc = "Paste append selection from Delete register\"d "} )
     vim.keymap.set({"n","v"}, "pD", "\"dP", {desc = "Paste insert selection from Delete register\"d "} )
     vim.keymap.set({"n","v"}, "px", "\"xp", {desc = "Paste append selection from Eager Cut register\"x "} )
@@ -83,7 +83,7 @@
 
 -- Plugin Keymaps
     -- Obsidian Notetaking plugin
-    require("plugins.keymaps.obsidian.keymaps")
+    require("plugins.keymaps.obsidian-nvim.keymaps")
     require("plugins.keymaps.nvim-tree.keymaps")
 
 --local function comment()

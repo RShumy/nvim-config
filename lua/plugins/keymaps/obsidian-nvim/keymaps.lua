@@ -1,4 +1,4 @@
-local functions = require("plugins.keymaps.obsidian.functions")
+local functions = require("plugins.keymaps.obsidian-nvim.functions")
 -- Map the function to a keybinding
 
 vim.keymap.set("n", "<leader>oo", ":cd ".. functions.vault_path .."<cr>")
