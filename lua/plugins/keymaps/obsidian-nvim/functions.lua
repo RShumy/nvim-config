@@ -8,14 +8,10 @@ local function Path() return require("plenary.path") end
 local function actions() return require("telescope.actions") end
 local function action_state() return require("telescope.actions.state") end
 local function obsidian() return require("obsidian").setup(
-   {
-    workspaces = {
-      {
+   { workspaces = { {
         name = "learning",
         path = vault_path,
-      },
-    }
-  }
+      }, } }
 ) end
 
 local count_retry_input = 0
@@ -192,6 +188,25 @@ local function pick_or_create_file(selected_folder, callback)
     })
 end
 
+local function delete_confirm_input(file_name)
+    local input = vim.fn.input("Detele currently open file ".. file_name .." ? \"Yes\"/\"No\":")
+    print("\n")
+    if input:match("^%s*[Yy][Ee][Ss]%s*$") then
+        return true
+    elseif input:match("^%s*[Nn[Oo]%s*$") then
+        print("Delete ".. file_name .." operation canceled !")
+        return false
+    else
+        return delete_confirm_input(file_name)
+    end
+end
+
+----------------------------------------
+------- EXPORTED FUNCTIONS -------------
+----------------------------------------
+
+-- Function to dynamically create a file under an existing or new folder 
+-- using Telescope as the chosen picker
 local function open_vault_file()
 
     local current_path = vim.fn.getcwd()
@@ -211,8 +226,16 @@ local function open_vault_file()
 
 end
 
+local function delete_note_current_buffer(file)
+    if delete_confirm_input(file) then
+         vim.cmd("!rm ".. file)
+     else
+         return
+     end
+end
 
 return {
+    delete_note = delete_note_current_buffer,
     obsidian_open_or_new = open_vault_file,
     vault_path = vault_path
 }
