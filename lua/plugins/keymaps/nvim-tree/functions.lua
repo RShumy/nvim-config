@@ -1,8 +1,16 @@
-local function copy_nvim_tree_path()
-    -- Check if the current buffer is an nvim-tree buffer
+-- Check if the current buffer is an nvim-tree buffer
+local function nvimtree_buffcheck()
     local bufname = vim.api.nvim_buf_get_name(0)
     if not string.match(bufname, "NvimTree_") then
         print("This command works only in an nvim-tree buffer")
+        return false
+    end
+    return true
+end
+
+local function copy_nvim_tree_path()
+
+    if not nvimtree_buffcheck() then
         return
     end
 
