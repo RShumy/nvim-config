@@ -1,5 +1,5 @@
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 1
 
 return {
   "epwalsh/obsidian.nvim",
@@ -24,12 +24,12 @@ return {
         name = "learning",
         path = "~/shumy_vault/",
       },
-
     -- Another vault, have to try sometime and see if i can switch
 --      {
 --        name = "work",
 --        path = "~/vaults/work",
 --      },
     },
+    ui = { enable = false }
   },
 }

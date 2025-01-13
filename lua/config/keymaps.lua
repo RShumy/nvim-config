@@ -20,6 +20,9 @@
     vim.keymap.set({"n","v"}, "y", "\"ay", {desc = "Copy selection into register: \"a "} )
     vim.keymap.set({"n","v"}, "Y", "\"aY", {desc = "Copy line into register: \"a "} )
 
+    vim.keymap.set({"n","v"}, "yc", "\"+y", {desc = "Copy selection into Clipboard register: \"+ "} )
+    vim.keymap.set({"n","v"}, "Yc", "\"+Y", {desc = "Copy line into Clipboard register: \"+ "} )
+
     vim.keymap.set({"n","v"}, "x", "\"xx", {desc = "Cut selection into register: \"x "} )
     vim.keymap.set({"n","v"}, "X", "\"xX", {desc = "Cut selection into register: \"x "} )
     vim.keymap.set({"n","v"}, "d", "\"dd", {desc = "Delete (Cut) selection into register: \"d "} )

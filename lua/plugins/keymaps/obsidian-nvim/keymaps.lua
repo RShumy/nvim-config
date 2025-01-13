@@ -1,7 +1,6 @@
 --_G.debug_functions = require("plugins.keymaps.obsidian-nvim.functions")
 local functions = require("plugins.keymaps.obsidian-nvim.functions")
 -- Map the function to a keybinding
-print(vim.inspect(functions))
 --print(vim.inspect(_G.debug_functions))
 vim.keymap.set("n", "<leader>oo", ":cd ".. functions.vault_path .."<cr>")
 -- search for files in full vault
