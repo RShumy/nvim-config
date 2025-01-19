@@ -1,18 +1,62 @@
+local os_info = require("config.os_utils")
+
+local is_Windows = os_info.is_Windows()
+local is_Linux = os_info.is_Linux()
+local join_path = os_info.join_path
+-- Setting the base drive and directory path
+local windows_vault = "D:\\shumy_vault"
+local linux_vault = "~/shumy_vault"
+
 -- Obsidian Note Taking plugin keyboard shortcuts
     -- navigate to vault
-local vault_path = "/home/shumy/shumy_vault"
+    -- TODO: Can make vault_path a switch function, depending on the OS
+local vault_path = function()
+    local base_dir
+    if is_Windows then
+        base_dir = windows_vault
+    end
+    if is_Linux then
+        base_dir = linux_vault
+    end
+    return vim.fn.expand(base_dir)
+end
 
 -- Transforming from variables to functions in order to ensure lazy loading
 local function telescope() return require("telescope.builtin") end
-local function Path() return require("plenary.path") end
 local function actions() return require("telescope.actions") end
 local function action_state() return require("telescope.actions.state") end
 local function obsidian() return require("obsidian").setup(
    { workspaces = { {
         name = "learning",
-        path = vault_path,
+        path = vault_path(),
       }, } }
 ) end
+
+-- Tables with command specifications for searching 
+-- only directory names(folder names) in the vault_path based on the running OS
+local win_find_only_dir = { "cmd", "/c", "dir /s /b /ad" }
+local linux_find_only_dir = { "find", ".", "-type", "d" }
+local find_only_dir = function ()
+    if is_Windows then
+        return win_find_only_dir
+    end
+    if is_Linux then
+        return linux_find_only_dir
+    end
+end
+
+-- Tables with command specification for searching 
+-- only for markdown .md files in the selected folder based on the running OS
+local win_find_only_files = { "cmd", "/c", "dir /s /b *.md" }
+local linux_find_only_files = { "find", ".", "-type", "f", "-name", "*.md" }
+local find_only_files = function ()
+    if is_Windows then
+        return win_find_only_files
+    end
+    if is_Linux then
+        return linux_find_only_files
+    end
+end
 
 local count_retry_input = 0
 
@@ -104,8 +148,8 @@ local function pick_folder(callback)
     -- Use Telescope to pick a folder in the vault
     telescope().find_files({
         prompt_title = "Select Vault Folder",
-        cwd = vault_path,
-        find_command = { "find", ".", "-type", "d" }, -- Show directories only
+        cwd = vault_path(),
+        find_command = find_only_dir(), -- Show directories only
         attach_mappings = function(prompt_bufnr, map)
 
             actions().select_default:replace(function()
@@ -114,15 +158,16 @@ local function pick_folder(callback)
 
                 actions().close(prompt_bufnr) -- Close Telescope picker
                 local folder_selection = action_state().get_selected_entry()
-                local selected_folder = Path():new(vault_path):absolute()
 
                 if folder_selection then
                     -- Get the selected folder name and remove its extension
-                    local folder_name = folder_selection.value
-                    selected_folder = Path():new(vault_path):joinpath(folder_name):absolute()
-
+                    -- folder_selection.value in Windows returns the full path  
+                    local folder_name = is_Windows and folder_selection.value:gsub(vault_path(), ""):gsub("\\","")
+                                                    or folder_selection.value
+                    local selected_folder = join_path(vault_path(),folder_name)
                     print("Pressed Key: " .. folder_from_input) -- Debugging output
-                    print("Selected folder Name: " .. folder_name) -- Debugging output
+                    print("Folder Name: " .. folder_name) -- Debugging output
+                    print("Selected Folder Name: " .. selected_folder) -- Debugging output
 
                     local foldernames_match = folder_name == folder_from_input
 
@@ -130,12 +175,12 @@ local function pick_folder(callback)
                         callback(selected_folder)
                     else
                         local final_folder = create_or_open(foldernames_match, folder_name, folder_from_input, "folder")
-                        final_folder = Path():new(vault_path):joinpath(final_folder):absolute()
+                        final_folder = join_path(vault_path(),final_folder)
                         callback(final_folder)
                     end
                 else
                     local new_folder = retry_input(folder_from_input, "folder")
-                    callback(Path():new(vault_path):joinpath(new_folder):absolute())
+                    callback(join_path(vault_path(),new_folder))
                 end
 
             end)
@@ -151,7 +196,7 @@ local function pick_or_create_file(selected_folder, callback)
     telescope().find_files({
         prompt_title = "Create or Select File in: " .. selected_folder,
         cwd = selected_folder,
-        find_command = { "find", ".", "-type", "f", "-name", "*.md" }, -- Show directories only
+        find_command = find_only_files(),
         attach_mappings = function(file_bufnr, file_map)
 
             actions().select_default:replace(function()
@@ -164,10 +209,26 @@ local function pick_or_create_file(selected_folder, callback)
                 if file_selection then
                     -- Get the selected file name and remove its extension
                     local file_name_with_ext = file_selection.value
-                    local file_name = file_name_with_ext:match("^(.*)%.") or file_name_with_ext
+                    local f_name = file_name_with_ext:match("^(.*)%.") or file_name_with_ext
+                    local file_name
 
+                    -- There are serious issues when calling gsub in with a callback function
+                    if is_Windows then
+                        local folder_name = selected_folder:gsub(vault_path(), ""):gsub("\\", "")
+                        file_name = f_name:gsub(vault_path(), ""):gsub("\\", "")
+                        local folder_len = string.len(folder_name)
+                        local file_len = string.len(file_name)
+                        print("Folder Name: " .. folder_name .. " with length " .. folder_len) -- Debugging output
+                        vim.cmd [[ sleep 5 ]]
+                        -- Somehow continuing with gsub on f_name does not work for some reason
+                        file_name = string.sub(file_name, folder_len+1 , file_len)
+                    else
+                        file_name = f_name
+                    end
+
+                    print("Selected Folder: " .. selected_folder ) -- Debugging output
                     print("Pressed Key: " .. file_from_input) -- Debugging output
-                    print("File Name with extension" .. file_name_with_ext)
+                    print("File Name with extension: " .. file_name_with_ext)
                     print("Selected File Name: " .. file_name) -- Debugging output
 
                     local filenames_match = file_name == file_from_input
@@ -193,7 +254,7 @@ local function delete_confirm_input(file_name)
     print("\n")
     if input:match("^%s*[Yy][Ee][Ss]%s*$") then
         return true
-    elseif input:match("^%s*[Nn[Oo]%s*$") then
+    elseif input:match("^%s*[Nn][Oo]%s*$") then
         print("Delete ".. file_name .." operation canceled !")
         return false
     else
@@ -218,7 +279,7 @@ local function open_vault_file()
             file_name = file_name:gsub("[^%w%s]", ""):gsub("%s+", "_")
             print(file_name, folder)
             obsidian():create_note({ title = file_name, id = file_name, dir = folder })
-            vim.cmd("e " .. folder .."/".. file_name .. ".md" )
+            vim.cmd("e " .. join_path(folder,file_name) .. ".md" )
         end)
     end)
         -- Reset cwd(current working directory) to the initial path before calling telescope.find_files
@@ -237,5 +298,5 @@ end
 return {
     delete_note = delete_note_current_buffer,
     obsidian_open_or_new = open_vault_file,
-    vault_path = vault_path
+    vault_path = vault_path(),
 }
