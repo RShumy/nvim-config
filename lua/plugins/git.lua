@@ -73,6 +73,10 @@ return {
 			vim.keymap.set("n", "<leader>gp", ":Git push<cr>", { desc = "[G]it [P]ush" })
 			-- Set a vim motion to <Space> + g + P to force push to origin the commited changes to the remote repository
 			vim.keymap.set("n", "<leader>gP", ":Git push origin --force<cr>", { desc = "[G]it [P]ush" })
+			-- Set a vim motion to <Space> + g + s to switch branch from the remote repository
+            vim.keymap.set("n", "<leader>gs", ":Git switch", { desc = "[G]it [S]wich branch" })
+			-- Set a vim motion to <Space> + g + u to switch branch from the remote repository
+            vim.keymap.set("n", "<leader>gu", ":Git pull", { desc = "[G]it P[u]ll" })
 
 			-- Set a vim motion to <Space> + g + r to rebase interactively
 			vim.keymap.set("n", "<leader>gr", ":Git rebase -i HEAD~", { desc = "[G]it [P]ush" })
