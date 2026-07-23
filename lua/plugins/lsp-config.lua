@@ -11,7 +11,7 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require("mason-lspconfig").setup({
-                ensure_installed = {"lua_ls", "ts_ls", "jdtls"}
+                ensure_installed = {"lua_ls", "jdtls"}
             })
         end
     },
@@ -41,11 +41,6 @@ return {
 
             -- lua language server setup
             lspconfig.lua_ls.setup({
-                capabilities = capabilities,
-            })
-
-            -- type script language server setup
-            lspconfig.ts_ls.setup({
                 capabilities = capabilities,
             })
 
