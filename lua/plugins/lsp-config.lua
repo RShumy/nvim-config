@@ -35,13 +35,26 @@ return {
         "neovim/nvim-lspconfig",
         config = function()
             --get access to the lspconfig plugin function
-            local lspconfig = require("lspconfig")
+            -- local lspconfig = require("lspconfig")
 
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             -- lua language server setup
-            lspconfig.lua_ls.setup({
+            vim.lsp.config("*", {
                 capabilities = capabilities,
+            })
+
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        diagnostics = { globals = { "vim" }, },
+                        completion = { callSnippet = "Replace" },
+                    }
+                }
+            })
+
+            vim.lsp.enable({
+                "lua_ls" ,
             })
 
             local telescope = require("telescope.builtin")
