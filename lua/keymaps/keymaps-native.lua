@@ -9,8 +9,8 @@ vim.api.nvim_set_keymap("n", "<Esc>", ":nohlsearch<cr>", {silent = true, noremap
 vim.keymap.set({"n","v"}, "y", "\"ay", {desc = "Copy selection into register: \"a "} )
 vim.keymap.set({"n","v"}, "Y", "\"aY", {desc = "Copy line into register: \"a "} )
 
-vim.keymap.set({"n","v"}, "yc", "\"+y", {desc = "Copy selection into Clipboard register: \"+ "} )
-vim.keymap.set({"n","v"}, "Yc", "\"+Y", {desc = "Copy line into Clipboard register: \"+ "} )
+vim.keymap.set({"n","v"}, "<leader>yc", "\"+y", {desc = "Copy selection into Clipboard register: \"+ "} )
+vim.keymap.set({"n","v"}, "<leader>Yc", "\"+Y", {desc = "Copy line into Clipboard register: \"+ "} )
 
 vim.keymap.set({"n","v"}, "x", "\"xx", {desc = "Cut selection into register: \"x "} )
 vim.keymap.set({"n","v"}, "X", "\"xX", {desc = "Cut selection into register: \"x "} )
@@ -24,12 +24,12 @@ vim.keymap.set({"n","v"}, "C", "\"cC", {desc = "Insertion Cut to end of line int
    -- that is not overwritten by cutting or deleitng text with "c, x, d" 
 vim.keymap.set({"n","v"}, "p", "\"ap", {desc = "Paste append selection from register \"a"} )
 vim.keymap.set({"n","v"}, "P", "\"aP", {desc = "Paste insert selection from register \"a"} )
-vim.keymap.set({"n","v"}, "pc", "\"cp", {desc = "Paste append selection from Insertion Cut register\"c "} )
-vim.keymap.set({"n","v"}, "pC", "\"cP", {desc = "Paste insert selection from Insertion Cut register\"c "} )
-vim.keymap.set({"n","v"}, "pd", "\"dp", {desc = "Paste append selection from Delete register\"d "} )
-vim.keymap.set({"n","v"}, "pD", "\"dP", {desc = "Paste insert selection from Delete register\"d "} )
-vim.keymap.set({"n","v"}, "px", "\"xp", {desc = "Paste append selection from Eager Cut register\"x "} )
-vim.keymap.set({"n","v"}, "pX", "\"xP", {desc = "Paste insert selection from Eager Cut register\"x "} )
+vim.keymap.set({"n","v"}, "<leader>pc", "\"cp", {desc = "Paste append selection from Insertion Cut register\"c "} )
+vim.keymap.set({"n","v"}, "<leader>pC", "\"cP", {desc = "Paste insert selection from Insertion Cut register\"c "} )
+vim.keymap.set({"n","v"}, "<leader>pd", "\"dp", {desc = "Paste append selection from Delete register\"d "} )
+vim.keymap.set({"n","v"}, "<leader>pD", "\"dP", {desc = "Paste insert selection from Delete register\"d "} )
+vim.keymap.set({"n","v"}, "<leader>px", "\"xp", {desc = "Paste append selection from Eager Cut register\"x "} )
+vim.keymap.set({"n","v"}, "<leader>pX", "\"xP", {desc = "Paste insert selection from Eager Cut register\"x "} )
 vim.keymap.set({"n","v"}, "<leader>po", "<ESC><cr>i<cr><ESC>k\"ap", {desc = "Paste selection from register \"a on a new line below"} )
 vim.keymap.set({"n","v"}, "<leader>pO", "<esc>0i<cr><esc>k\"ap", {desc = "Paste selection from register \"a on a new line above"} )
 

@@ -10,3 +10,14 @@ require("vim._core.ui2").enable({
 })
 require("config")
 require("keymaps")
+require("plugins")
+
+_G.theme("dracula")
+
+vim.cmd("hi NonText guibg=none ctermbg=none")
+vim.cmd("hi NvimTreeNonText guibg=none ctermbg=none")
+vim.cmd("hi NvimTreeNormal guibg=none ctermbg=none")
+
+-- Making the Cursor Line Transparent
+vim.cmd("hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE")
+
