@@ -11,19 +11,23 @@ require("vim._core.ui2").enable({
 require("config")
 require("keymaps")
 require("plugins")
+require("keymaps.plugins")
 
 _G.theme("dracula")
 
-vim.cmd("hi NonText guibg=none ctermbg=none")
-vim.cmd("hi NvimTreeNonText guibg=none ctermbg=none")
-vim.cmd("hi NvimTreeNormal guibg=none ctermbg=none")
-
+-- Make nvim transparent
+    -- hi Normal guibg=none ctermbg=none
+    -- hi NormalNC guibg=none ctermbg=none
 -- Making the Cursor Line Transparent
-vim.cmd("hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE")
-vim.api.nvim_create_autocmd("ColorScheme", {
-  pattern = "*",
-  callback = function()
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
-    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
-  end,
-})
+    -- hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE
+-- Making the Floating Windows backgound transparent
+    -- hi NormalFloat ctermbg=none guibg=none 
+    -- hi FloatBorder ctermbg=none guibg=none
+vim.cmd [[
+    hi NonText guibg=none ctermbg=none
+    hi NvimTreeNonText guibg=none ctermbg=none
+    hi NvimTreeNormal guibg=none ctermbg=none
+    hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE
+    hi NormalFloat ctermbg=none guibg=none 
+    hi FloatBorder ctermbg=none guibg=none
+]]
