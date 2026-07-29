@@ -1,4 +1,4 @@
-local whichkey = require("whichkey")
+local whichkey = require("which-key")
 
 whichkey.setup({
     preset = "helix",

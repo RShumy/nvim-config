@@ -20,4 +20,10 @@ vim.cmd("hi NvimTreeNormal guibg=none ctermbg=none")
 
 -- Making the Cursor Line Transparent
 vim.cmd("hi CursorLine ctermbg=none guibg=#323b2d gui=NONE cterm=NONE")
-
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
+  end,
+})

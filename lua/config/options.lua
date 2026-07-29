@@ -33,8 +33,8 @@ opt.completeopt = "menuone,noinsert,noselect"
 opt.cursorline = true
 
 -- Behaviour
--- g.loaded_netrw = 1
--- g.loaded_netrwPlugin = 1
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 opt.hidden = true
 opt.errorbells = false
 opt.swapfile = false

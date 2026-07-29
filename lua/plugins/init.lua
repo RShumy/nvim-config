@@ -1,2 +1,4 @@
 require("plugins.plugins-list")
-require("which-key")
+require("plugins.treesitter")
+require("plugins.which-key")
+require("plugins.snacks")

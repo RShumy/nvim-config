@@ -1,4 +1,4 @@
-local treesitter = require("treesitter")
+local treesitter = require("nvim-treesitter.config")
 
 treesitter.setup({
     build = ':TSUpdate',
