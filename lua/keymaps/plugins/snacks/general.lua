@@ -1,6 +1,11 @@
 local snacks = require("snacks")
 local explorer = snacks.explorer
 local picker = snacks.picker
+local obsidian_picker = require("plugins.snacks_obsidian").setup({
+    vault = "~/shumy_vault",
+})
+
+vim.keymap.set("n", "<leader>oo", obsidian_picker, { desc = "Browse Vault" })
 
 vim.keymap.set("n", "<leader>e", function() explorer() end, {desc = "Toggle Snacks [e]xplorer window"})
 
@@ -55,3 +60,26 @@ vim.keymap.set("n", "<leader>ss", function() picker.lsp_symbols() end, {desc = "
 vim.keymap.set("n", "<leader>sS", function() picker.lsp_workspace_symbols() end, {desc = "LSP Workspace Symbols"})
 vim.keymap.set("n", "gai", function() picker.lsp_incoming_calls() end, {desc = "C[a]lls Incoming"}, {has = "callHierarchy/incomingCalls"})
 vim.keymap.set("n", "gao", function() picker.lsp_outgoing_calls() end, {desc = "C[a]lls Outgoing"}, {has = "callHierarchy/outgoingCalls"})
+    -- buffers
+vim.keymap.set("n", "<leader>bd", function() Snacks.bufdelete() end, {desc = "Delete buffer"})
+vim.keymap.set("n", "<leader>bo", function() Snacks.bufdelete.other() end, {desc = "Delete other buffers"})
+    -- terminal
+vim.keymap.set("n", "<leader>fT", function() Snacks.terminal() end, {desc = "Terminal (cwd)"})
+vim.keymap.set("n", "<leader>ft", function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, {desc = "Terminal (Root Dir)"})
+vim.keymap.set("n", "<c-:>", function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, {desc = "Terminal (Root Dir)"})
+vim.keymap.set("n", "<c-/>",  function() Snacks.terminal() end, {desc = "Toggle Terminal" })
+vim.keymap.set("n", "<c-_>", function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, {desc = "which_key_ignore"})
+-- Other
+vim.keymap.set("n", "<leader>z", function() Snacks.zen() end, {desc = "Toggle Zen Mode" })
+vim.keymap.set("n", "<leader>Z", function() Snacks.zen.zoom() end, {desc = "Toggle Zoom" })
+vim.keymap.set("n", "<leader>.", function() Snacks.scratch() end, {desc = "Toggle Scratch Buffer" })
+vim.keymap.set("n", "<leader>S", function() Snacks.scratch.select() end, {desc = "Select Scratch Buffer" })
+vim.keymap.set("n", "<leader>n", function() Snacks.notifier.show_history() end, {desc = "Notification History" })
+vim.keymap.set("n", "<leader>bd", function() Snacks.bufdelete() end, {desc = "Delete Buffer" })
+vim.keymap.set("n", "<leader>cR", function() Snacks.rename.rename_file() end, {desc = "Rename File" })
+vim.keymap.set({ "n", "v" }, "<leader>gB", function() Snacks.gitbrowse() end, {desc = "Git Browse"})
+vim.keymap.set("n", "<leader>gg", function() Snacks.lazygit() end, {desc = "Lazygit" })
+vim.keymap.set("n", "<leader>un", function() Snacks.notifier.hide() end, {desc = "Dismiss All Notifications" })
+vim.keymap.set("n", "<c-_>", function() Snacks.terminal() end, {desc = "which_key_ignore" })
+vim.keymap.set({ "n", "t" }, "]]", function() Snacks.words.jump(vim.v.count1) end, {desc = "Next Reference"})
+vim.keymap.set({ "n", "t" }, "[[", function() Snacks.words.jump(-vim.v.count1) end, {desc = "Prev Reference"})

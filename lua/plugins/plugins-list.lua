@@ -5,14 +5,16 @@ end
 vim.pack.add({
     -- themes
     plugin("Mofiqul/dracula.nvim", "dracula-theme"),
+
     -- nvim basics
     plugin("nvim-lua/plenary.nvim", "plenary"),
     -- treesitter dependency
     plugin("windwp/nvim-ts-autotag"),
     plugin("nvim-treesitter/nvim-treesitter", "treesitter"),
+    plugin("nvim-tree/nvim-web-devicons", "web-dev-icons"),
 
     plugin("folke/which-key.nvim", "whichkey"),
     plugin("folke/snacks.nvim", "snacks"),
-    plugin("nvim-tree/nvim-web-devicons", "web-dev-icons")
+    plugin("obsidian-nvim/obsidian.nvim", "obsidian")
 })
 

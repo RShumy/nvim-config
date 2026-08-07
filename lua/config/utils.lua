@@ -1,3 +1,5 @@
+local os_utils = require("config.os_utils")
+
 _G.ghpack = function(repo)
     return "https://github.com/" .. repo
 end
