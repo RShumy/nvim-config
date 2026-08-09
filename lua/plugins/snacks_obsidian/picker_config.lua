@@ -4,15 +4,20 @@ local Vault = require("plugins.snacks_obsidian.vault")
 local actions = require("plugins.snacks_obsidian.actions")
 local format = require("plugins.snacks_obsidian.format")
 local layout = require("plugins.snacks_obsidian.layout")
--- local preview = require("plugins.snacks_obsidian.preview")
+local keymaps = require("plugins.snacks_obsidian.keymaps")
 
 local M = {}
 
 ---@param opts snacks.picker.Config?
 function M.new(vault_opts)
+    vim.inspect(vault_opts)
     vault_opts = vault_opts or {}
 
     local vault = Vault.new(vault_opts.vault)
+
+    local resolved_keys = keymaps.resolve(vault_opts.action_keys)
+
+    local registered_actions = actions.registered()
 
     ---@type snacks.picker.Source
     return {
@@ -27,7 +32,7 @@ function M.new(vault_opts)
             local items = vault:list()
 
             local query = vim.trim(ctx.filter.search or "")
-            print(vault:can_create(query))
+
             if vault:can_create(query) then
                 table.insert(items, 1, {
                     kind = "create",
@@ -39,32 +44,18 @@ function M.new(vault_opts)
             return items
         end,
 
-        layout = layout(),
+        layout = layout(resolved_keys),
 
         format = format.format,
 
         confirm = actions.confirm,
 
-        actions = {
-            parent = actions.parent,
-            refresh = actions.refresh,
-            rename = actions.rename,
-            delete = actions.delete,
-            create = actions.create_note,
-            create_folder = actions.create_folder,
-        },
+        actions = registered_actions,
 
 
         win = {
             input = {
-                keys = {
-                    ["<BS>"] = { "parent" },
-                    ["<C-r>"] = { "refresh" },
-                    ["<F2>"] = { "rename" },
-                    ["<C-d>"] = { "delete" },
-                    ["<C-n>"] = { "create" },
-                    ["<C-f>"] = { "create_folder" },
-                },
+                keys = keymaps.to_snacks(resolved_keys)
             },
         },
     }

@@ -1,28 +1,20 @@
-local obisdian_create_keys = {
-    enter = false,
-    focusable = false,
-    bo = {
-        buftype = "nofile",
-        bufhidden = "wipe",
-        swapfile = false,
-    },
-    text = "<C-n> to create note"
-}
+local M = {}
 
-local obisdian_modify_keys = {
-    enter = false,
-    focusable = false,
-    bo = {
-        buftype = "nofile",
-        bufhidden = "wipe",
-        swapfile = false,
-    },
-    text = "Press <C-r> to rename\nPress <C-d> to delete",
-}
+function M.text(action_keys, category)
+    local result = {}
 
+    for _, entry in ipairs(action_keys) do
+        if entry.enabled ~= false
+            and entry.desc_category == category
+        then
+            table.insert(
+                result,
+                ("%s  %s"):format(entry.key, entry.desc)
+            )
+        end
+    end
 
-return {
-    window_create_keys = obisdian_create_keys,
-    window_modify_keys = obisdian_modify_keys,
-    -- create_key_window = create_key_window,
-}
+    return { text = result, }
+end
+
+return M

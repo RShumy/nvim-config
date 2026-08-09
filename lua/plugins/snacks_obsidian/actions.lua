@@ -177,4 +177,15 @@ function M.delete(picker, item)
     refresh(picker)
 end
 
+function M.registered()
+    return {
+        parent = M.parent,
+        refresh = M.refresh,
+        rename = M.rename,
+        delete = M.delete,
+        create_note = M.create_note,
+        create_folder = M.create_folder,
+    }
+end
+
 return M

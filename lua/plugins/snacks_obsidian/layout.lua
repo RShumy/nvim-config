@@ -24,7 +24,7 @@ local function create_key_window(opts)
     }, opts))
 end
 
-return function() 
+return function(action_keys) 
     return 
     {
     wins = {
@@ -32,8 +32,8 @@ return function()
         -- list = list,
         -- preview = preview,
 
-        create_keys = create_key_window(key_helper_windows.window_create_keys),
-        modify_keys = create_key_window(key_helper_windows.window_modify_keys),
+        create_keys = create_key_window(key_helper_windows.text(action_keys, "create")),
+        modify_keys = create_key_window(key_helper_windows.text(action_keys, "modify")),
     },
 
     layout = { 
