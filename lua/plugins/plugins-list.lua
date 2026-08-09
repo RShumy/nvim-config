@@ -17,10 +17,10 @@ vim.pack.add({
     plugin("nvim-treesitter/nvim-treesitter", "treesitter"),
     plugin("nvim-tree/nvim-web-devicons", "web-dev-icons"),
 
-    plugin("folke/which-key.nvim", "whichkey"),
+    plugin("folke/which-key.nvim", "which-key"),
     plugin("folke/snacks.nvim", "snacks"),
     plugin("obsidian-nvim/obsidian.nvim", "obsidian"),
-    plugin("MeanderingProgrammer/render-markdown.nvim"),
-    plugin("lewis6991/gitsigns.nvim")
+    plugin("MeanderingProgrammer/render-markdown.nvim", "render-markdown"),
+    plugin("lewis6991/gitsigns.nvim", "gitsigns")
 })
 
