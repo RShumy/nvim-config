@@ -126,8 +126,11 @@ local lazygit = function()
           nerdFontsVersion = "3",
         },
         },
-        theme_path = svim.fs.normalize(vim.fn.stdpath("cache") .. "/lazygit-theme.yml"),
-        -- Theme for lazygit
+        -- theme = {
+        --     useThemeForLazygit = true
+        -- },
+        -- theme_path = svim.fs.normalize(vim.fn.stdpath("cache") .. "/lazygit-theme.yml"),
+        -- -- Theme for lazygit
         theme = {
         [241]                      = { fg = "Special" },
         activeBorderColor          = { fg = "MatchParen", bold = true },

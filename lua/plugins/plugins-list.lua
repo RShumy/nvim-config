@@ -7,7 +7,8 @@ end
 
 vim.pack.add({
     -- themes
-    plugin("Mofiqul/dracula.nvim", "dracula-theme"),
+    -- plugin("Mofiqul/dracula.nvim"),
+    plugin("AndresYague/dracula.nvim", "dracula"),
 
     -- nvim basics
     plugin("nvim-lua/plenary.nvim", "plenary"),

@@ -5,12 +5,12 @@
       "src": "https://github.com/folke/snacks.nvim"
     },
     "dracula": {
-      "rev": "ae752c13e95fb7c5f58da4b5123cb804ea7568ee",
-      "src": "https://github.com/Mofiqul/dracula.nvim"
+      "rev": "6a7db9a533bb6744395abdd704398a9b42ab9665",
+      "src": "https://github.com/AndresYague/dracula.nvim"
     },
-    "dracula-theme": {
-      "rev": "ae752c13e95fb7c5f58da4b5123cb804ea7568ee",
-      "src": "https://github.com/Mofiqul/dracula.nvim"
+    "gitsigns.nvim": {
+      "rev": "31d6fb2d618bca1482b9f274751ead5f03461408",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "nvim-treesitter": {
       "rev": "61df84986b4b4ec469ee745a182e433d49f8c27e",
@@ -27,6 +27,10 @@
     "plenary": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "snacks": {
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",

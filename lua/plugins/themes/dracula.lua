@@ -1,5 +1,9 @@
 local dracula = require("dracula")
 
 dracula.setup({
-    transparent_bg = true,
+    transparent = true,
+    plugins = {
+        snacks = true,
+        whichkey = true,
+    }
 })
