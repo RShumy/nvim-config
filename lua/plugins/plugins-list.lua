@@ -1,5 +1,8 @@
 local plugin = function(plugin, name)
-    return { src = _G.ghpack(plugin), name = name }
+    if name ~= nil then
+        return { src = ghpack(plugin), name = name }
+    end
+    return ghpack(plugin) 
 end
 
 vim.pack.add({
@@ -15,6 +18,7 @@ vim.pack.add({
 
     plugin("folke/which-key.nvim", "whichkey"),
     plugin("folke/snacks.nvim", "snacks"),
-    plugin("obsidian-nvim/obsidian.nvim", "obsidian")
+    plugin("obsidian-nvim/obsidian.nvim", "obsidian"),
+    plugin("MeanderingProgrammer/render-markdown.nvim")
 })
 

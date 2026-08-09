@@ -52,6 +52,34 @@ M.defaults = {
     },
 }
 
+local function validate_entries(entries, source)
+    local actions = {}
+    local keys = {}
+
+    for index, entry in ipairs(entries) do
+        if entry.action == nil or entry.key == nil then
+            error((
+                "obsidian action key #%d in %s must define both 'action' and 'key'"
+            ):format(index, source))
+        end
+
+        if actions[entry.action] then
+            error((
+                "duplicate action '%s' in %s action keys"
+            ):format(entry.action, source))
+        end
+
+        if keys[entry.key] then
+            error((
+                "duplicate key '%s' in %s action keys"
+            ):format(entry.key, source))
+        end
+
+        actions[entry.action] = true
+        keys[entry.key] = true
+    end
+end
+
 ---@param defaults ObsidianActionKey[]
 ---@param overrides ObsidianActionKey[]?
 ---@return ObsidianActionKey[]
@@ -153,34 +181,6 @@ function M.category(action_keys, category)
     end
 
     return result
-end
-
-local function validate_entries(entries, source)
-    local actions = {}
-    local keys = {}
-
-    for index, entry in ipairs(entries) do
-        if entry.action == nil or entry.key == nil then
-            error((
-                "obsidian action key #%d in %s must define both 'action' and 'key'"
-            ):format(index, source))
-        end
-
-        if actions[entry.action] then
-            error((
-                "duplicate action '%s' in %s action keys"
-            ):format(entry.action, source))
-        end
-
-        if keys[entry.key] then
-            error((
-                "duplicate key '%s' in %s action keys"
-            ):format(entry.key, source))
-        end
-
-        actions[entry.action] = true
-        keys[entry.key] = true
-    end
 end
 
 return M
