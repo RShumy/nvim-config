@@ -20,37 +20,32 @@ local function get_jdtls(mason_registry)
     return launcher, os_config, lombok
 end
 
-local function get_bundles(mason_registry)
-    local bundles = {}
-
-    -- Java Debug Adapter
-    local java_debug =
-        mason_registry.get_package("java-debug-adapter")
-
-    local java_debug_path =
-        java_debug:get_install_path()
-
-    local debug_bundle = vim.fn.glob(
-        java_debug_path
-            .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
-        1
+local function add_package_bundles(
+    bundles,
+    mason_registry,
+    package_name,
+    pattern
+)
+    local ok, package = pcall(
+        mason_registry.get_package,
+        package_name
     )
 
-    if debug_bundle ~= "" then
-        table.insert(bundles, debug_bundle)
+    if not ok then
+        return
     end
 
-    -- Java Test
-    local java_test =
-        mason_registry.get_package("java-test")
+    if not package:is_installed() then
+        return
+    end
 
-    local java_test_path =
-        java_test:get_install_path()
+    local install_path =
+        package:get_install_path()
 
-    local test_bundles = vim.split(
+    local matches = vim.split(
         vim.fn.glob(
-            java_test_path .. "/extension/server/*.jar",
-            1
+            install_path .. "/" .. pattern,
+            true
         ),
         "\n",
         {
@@ -58,7 +53,25 @@ local function get_bundles(mason_registry)
         }
     )
 
-    vim.list_extend(bundles, test_bundles)
+    vim.list_extend(bundles, matches)
+end
+
+local function get_bundles(mason_registry)
+    local bundles = {}
+
+    add_package_bundles(
+        bundles,
+        mason_registry,
+        "java-debug-adapter",
+        "extension/server/com.microsoft.java.debug.plugin-*.jar"
+    )
+
+    add_package_bundles(
+        bundles,
+        mason_registry,
+        "java-test",
+        "extension/server/*.jar"
+    )
 
     return bundles
 end
