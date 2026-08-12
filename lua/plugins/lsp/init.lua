@@ -4,6 +4,12 @@ require("plugins.lsp.mason-lspconfig")
 require("plugins.lsp.mason-tools")
 require("plugins.lsp.nvim-dap")
 
+local library = {}
+
+for _, plugin in ipairs(vim.pack.get( { "snacks" } )) do
+    library[#library + 1] = plugin.path
+end
+
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
@@ -15,6 +21,11 @@ vim.lsp.config("lua_ls", {
 
             completion = {
                 callSnippet = "Replace",
+            },
+
+            workspace = {
+                library = library,
+                checkThirdParty = false
             },
         },
     },

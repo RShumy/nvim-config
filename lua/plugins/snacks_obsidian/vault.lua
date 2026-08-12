@@ -2,6 +2,7 @@
 ---@field kind "folder"|"note"
 ---@field text string
 ---@field file string
+---@field title string
 
 ---@class ObsidianVault
 ---@field root string

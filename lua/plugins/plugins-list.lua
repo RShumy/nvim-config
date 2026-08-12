@@ -36,6 +36,8 @@ vim.pack.add({
     plugin("lewis6991/gitsigns.nvim", "gitsigns"),
 
     -- LSP
+    plugin("mfussenegger/nvim-dap", "nvim-dap"),
+    plugin("mfussenegger/nvim-jdtls", "nvim-jdtls"),
     plugin("mason-org/mason.nvim", "mason"),
     plugin("mason-org/mason-registry", "mason-registry"),
     plugin("neovim/nvim-lspconfig", "nvim-lspconfig"),
@@ -48,7 +50,5 @@ vim.pack.add({
     plugin("saghen/blink.cmp", "blink-cmp", { version = vim.version.range("1.*") } ),
     plugin("L3MON4D3/LuaSnip", "luasnip", { version = vim.version.range("^2") }),
     plugin("rafamadriz/friendly-snippets", "friendly-snippets"),
-    plugin("mfussenegger/nvim-dap", "nvim-dap"),
-    plugin("mfussenegger/nvim-jdtls", "nvim-jdtls"),
 })
 

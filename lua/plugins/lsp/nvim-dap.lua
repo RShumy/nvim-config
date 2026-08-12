@@ -12,7 +12,7 @@ vim.keymap.set( "n", "<leader>dt", dap.toggle_breakpoint, { desc = "[D]ebug [T]o
 -- Start/continue debugging. 
 vim.keymap.set( "n", "<leader>ds", dap.continue, { desc = "[D]ebug [S]tart" } )
 -- Close DAP UI.
-vim.keymap.set( "n", "<leader>dc", dapui.close, { desc = "[D]ebug [C]lose" } )
+vim.keymap.set( "n", "<leader>d", dapui.close, { desc = "[D]ebug [C]lose" } )
 
 vim.keymap.set( "n", "<leader>dt", dap.toggle_breakpoint, { desc = "[D]ebug [T]oggle Breakpoint" })
 
@@ -26,4 +26,4 @@ vim.keymap.set( "n", "<leader>dO", dap.step_out, { desc = "[D]ebug Step [O]ut" }
 
 vim.keymap.set( "n", "<leader>dr", dap.repl.open, { desc = "[D]ebug [R]EPL" })
 
-vim.keymap.set( "n", "<leader>du", dapui.toggle, { desc = "[D]ebug [U]I" })
+vim.keymap.set( "n", "<leader>dd", dapui.toggle, { desc = "[D]ebug [U]I" })

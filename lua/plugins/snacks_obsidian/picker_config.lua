@@ -8,7 +8,7 @@ local keymaps = require("plugins.snacks_obsidian.keymaps")
 
 local M = {}
 
----@param opts snacks.picker.Config?
+---@param vault_opts snacks.picker.Config?
 function M.new(vault_opts)
     vim.inspect(vault_opts)
     vault_opts = vault_opts or {}
